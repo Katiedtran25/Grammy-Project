@@ -1,5 +1,4 @@
 # Grammy-Project
-Grammys Project
 
 
 Are you excited to dive into data work for an exciting project at The Recording Academy? You know, the non-profit organization behind the Grammy Awards!
@@ -36,6 +35,7 @@ import plotly.express as px
 # RUN THIS CELL - DO NOT MODIFY
 # this formats numbers to two decimal places when shown in pandas
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
+
 Task 2
 Load in the first two files for your analysis. They are the grammy_live_web_analytics.csv and ra_live_web_analytics.csv.
 
@@ -72,23 +72,18 @@ Task 4
 Let's investigate what an "average" day looks like when the awards show is being hosted versus the other 364 days out of the year.
 
 A. Use the pandas .groupby() to calculate the number of visitors on the site based on the values in the column awards_night.
-Task 3
-We all know The Grammy Awards is the biggest music event in the music industry, but how many visitors does that bring to the website?
 
-A. Create a line chart of the number of users on the site for every day in the full_df. See if you can spot the days the Grammys awards are hosted.
+full_df.groupby('awards_night').agg({'visitors': 'mean'})
+visitors
+awards_night	
+0	32388.28
+1	1389590.23
+B. What can you say about these results? Roughly how many more visitors are on the website for the awards ceremony versus a regular day?
 
-# Plot a line chart of the visitors on the site.
-px.line(full_df, x ='date', y = 'visitors', title = 'Number of visitors on the days the Grammys awards are hosted by year')
-Remark: The smaller spikes, typically around November/December of each year, are when the nominees are announced.
+There was a significant spike in viewership during the award night, reaching 1,389,590 viewers—approximately 43 times higher than the average daily viewership of 32,388.
+Remark: This is The Recording Academy's biggest challenge! How do you transform a business that relies on the success of one event per year into one that continues to bring users back on the site year round?
 
-B. What can you say about the visitors to the website by looking at the graph?
 
-Each year, there are two peak data events related to the Grammys: one occurs when the Recording Academy announces the nominees, and the other happens during the main showcase event. Viewership typically spikes on Grammy night when the winners are revealed. In 2021, the event saw high viewership. However, in 2022, traffic was lower due to the ceremony being held virtually. In 2023, data peaks were modest, largely due to a boycott by several artists, a disconnect with broader audiences, and controversies surrounding the voting system.
-
-Task 4
-Let's investigate what an "average" day looks like when the awards show is being hosted versus the other 364 days out of the year.
-
-A. Use the pandas .groupby() to calculate the number of visitors on the site based on the values in the column awards_night.
 Task 5
 When The Recording Academy decided to split their website into two domains, grammy.com and recordingacademy.com, the data capture for grammy.com was not affected. So the full_df variable needs to be split separately into two dataframes. The day the domains were switched is on 2022-02-01.
 
@@ -103,12 +98,6 @@ print(combined_site)
 grammys = full_df[full_df['date'] >= '2022-02-01']
 print(grammys)
               
-
-  
-
-
-# Run the following cell - DO NOT MODIFY
-# .copy() prevents pandas from printing a scary-looking warning message
 combined_site = combined_site.copy()
 grammys = grammys.copy()
 # print the shape of the combined_site dataframe
@@ -155,6 +144,8 @@ D. Looking at the 3 charts above, what can you say about the pages_per_session w
 Note: Any large spikes in the data that do not correspond with the Grammy Awards Ceremony can be attributed to abnormalities in the data collection process and ignored in your analysis.
 
 Looking at the three charts above, it's clear that the pages per session metric experienced a noticeable change after the websites were split. When the websites were combined, users tended to navigate through more pages per session, indicating broader engagement across the platform. However, after the split, pages per session declined, which could suggest that users were more focused on specific content and less likely to browse beyond their immediate interests. This shift might be due to a more targeted experience or possibly reduced cross-navigation opportunities between sites.
+
+
 
 Task 7
 Bounce rate is another important metric for The Recording Academy. Bounce Rate is a measure of the percentage of visitors who come to the site and never interact with the website and leave. In this task, you will define a function that takes in a dataframe as input and outputs the bounce rate.
@@ -224,6 +215,7 @@ Part III - Demographics
 Age demographics are a way to see which audience(s) your content is resonating with the most. This can inform marketing campaigns, ads, and much more.
 
 Let's investigate the demographics for the two websites. This will require reading in two new files and joining them in python.
+
 
 Task 8
 The grammys_age_demographics.csv and tra_age_demographics.csv each contain the following information:
@@ -351,12 +343,7 @@ Calculate a new column, total_visitors that is the addition of desktop_visitors 
 # create total_visitors column
 segment_df['total_visitors'] = desktop_users['desktop_visitors'] + mobile_users['mobile_visitors']
 segment_df.head()
-date	mobile_visitors	desktop_visitors	total_visitors
-0	2022-02-01	23494	10195	33689
-1	2022-02-02	20234	10560	30794
-2	2022-02-03	22816	9935	32751
-3	2022-02-04	18592	8501	27093
-4	2022-02-05	13298	5424	18722
+
 To calculate the percentage share you will first need to filter the data to dates after (and including) 2023-04-01. Then calculate the sum of desktop visitors and total visitors and divide those values. The percentage share of mobile visitors will be the value needed to get to 100%.
 
 # filter and calculate the percentage share
